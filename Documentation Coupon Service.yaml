@@ -1,0 +1,133 @@
+openapi: 3.0.3
+info:
+  title: Coupon Service
+  description: This is a sample project for the last case study of Springboot, it's working with microservices, Java 11 and it's a service that can help to save information about coupons, this microservice is going to be called by other service.
+  version: 1.0.0
+  
+servers:
+- url: http://localhost:8082/api
+
+tags:
+- name: post
+  description: This endpoint is for adding a new coupon.
+- name: getCoupon
+  description: This endpoint is for getting a coupon by id.
+
+paths:
+  /post:
+    post:
+      tags:
+        - post
+      summary: Insert the information in the DB.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BodyProductPost'
+        required: true
+      responses:
+        200:
+          description: (OK)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExitProduct'
+                
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized' 
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+          
+  /getCoupon/{id}:
+    get:
+      tags:
+        - getCoupon
+      summary: Get the data from the DB by id.
+      parameters:
+      - name: id
+        in: path
+        description: id to get a coupon
+        required: true
+        schema:
+          type: integer
+      responses:
+        200:
+          description: (OK)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExitProduct'
+                
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized' 
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+        
+components:
+  responses:
+    
+    Unauthorized:
+      description: (Unauthorized) No authorization
+    
+    NotFound:
+      description: (NotFound) No info 
+    
+    BadRequest:
+      description: (Bad Request) Incorrect values
+      
+    ServerError:
+      description: Service error
+        
+
+  parameters:
+    productId:
+      in: query
+      name: productId
+      description: Id to get a product
+      required: true
+      schema:
+        type: integer
+        
+  schemas:
+    BodyProductPost:
+      type: object
+      properties:
+        discount:
+          type: integer
+          description: The discount of the coupon.
+          
+    ExitProduct:
+      type: object
+      properties:
+        id:
+          type: integer
+          enum: [1]
+          description: Response
+        discount: 
+          type: integer
+          enum: [20]
+          description: Response
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+        
